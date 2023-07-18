@@ -77,7 +77,17 @@ class Api {
     } catch (error) {
       console.error("Connexion KO " + error);
     }
-  }  
+  } 
+
+  async insertUtilisateur(utilisateurData) {
+    try {
+      const response = await axios.post(`${this.baseUrl}/utilisateur`, utilisateurData);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 
 }
 
