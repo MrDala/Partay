@@ -1,8 +1,12 @@
+import { useContext } from 'react';
+
+import { UserContext } from '../context/UserContext';
 import { api } from "../api/Api";
+import Content from "../components/Content";
 
 function Accueil() {
-
-  api.testConnexion();
+  const { utilisateur } = useContext(UserContext);
+  console.log(utilisateur);
 
   function addJhon() {
     const utilisateurData = {
@@ -23,10 +27,10 @@ function Accueil() {
   }
 
   return (
-    <div>
+    <Content className="Accueil">
       <h1>TEST</h1>
       <button onClick={() => addJhon() }>Ajouter Jhon</button>
-    </div>
+    </Content>
   );
 }
 

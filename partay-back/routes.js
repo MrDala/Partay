@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize'); // Import de l'opérateur Op depuis Sequelize
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const { Utilisateurs } = require('./models'); // Import du modèle Utilisateur
@@ -31,7 +32,6 @@ router.post('/utilisateur', async (req, res) => {
       return res.status(400).json({ message: "Le mot de passe doit contenir au moins 1 caractère spécial" });
     }
 
-
     // Vérification de l'unicité du Mail
     const existingUserMail = await Utilisateurs.findOne({ where: { Mail } });
     if (existingUserMail) {
@@ -43,8 +43,6 @@ router.post('/utilisateur', async (req, res) => {
     if (existingUserTelephone) {
       return res.status(409).json({ message: 'Un utilisateur avec ce numéro de téléphone existe déjà.' });
     }
-
-    // Autres vérifications des données, par exemple : longueur minimale/maximale, format d'e-mail, etc.
 
     const newUser = await Utilisateurs.create({
       Id_Utilisateur: uuidv4(),
@@ -64,6 +62,32 @@ router.post('/utilisateur', async (req, res) => {
   }
 });
 
+//Connexion d'un utilisateur
+router.post('/connexion', async (req, res) => {
+  const { identifiant, motDePasse } = req.body;
+
+  try {
+    // Vérification de l'identifiant et du mot de passe
+    const user = await Utilisateurs.findOne({
+      where: {
+        [Op.or]: [
+          { Mail: identifiant },
+          { Telephone: identifiant }
+        ],
+        MotDePasse: motDePasse
+      }
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Identifiants de connexion invalides' });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.status(500).send('Internal Server Error');
+  }
+});
 
 // Export the router instance
 module.exports = router;
