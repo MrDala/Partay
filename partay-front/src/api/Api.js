@@ -79,10 +79,10 @@ class Api {
     }
   }
 
-  async insertUtilisateur(utilisateurData) {
+  async inscription(utilisateurData) {
     try {
       const response = await this.post('/utilisateur', utilisateurData);
-      return response.data;
+      return response.message;
     } catch (error) {
       console.error(error);
       throw error;

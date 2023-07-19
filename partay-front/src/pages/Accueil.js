@@ -11,7 +11,7 @@ function Accueil() {
       Nom: "Doe" 
     };
 
-    api.insertUtilisateur(utilisateurData)
+    api.inscription(utilisateurData)
     .then(response => {
       console.log(response); // Traitez la réponse
     })

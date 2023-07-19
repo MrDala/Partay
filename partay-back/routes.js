@@ -1,7 +1,7 @@
 const express = require('express');
 const { Op } = require('sequelize'); // Import de l'opérateur Op depuis Sequelize
 const router = express.Router();
-const { Utilisateurs } = require('./models'); // Import du modèle Utilisateur
+const Utilisateurs  = require('./models/utilisateurs'); // Import du modèle Utilisateur
 
 // Define a route for the root URL
 router.get('/test/', (req, res) => {

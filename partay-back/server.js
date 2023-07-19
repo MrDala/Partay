@@ -25,20 +25,8 @@ sequelize
     console.error('Error connecting to database:', error);
   });
 
-// Import des modèles
-const { Utilisateurs } = require('./models');
-
-app.use((req, res, next) => {
-  req.db = {
-    Utilisateurs
-  };
-  next();
-});
-
-
 app.listen(port, () => {
   console.log('Server is running on port 3000');
 });
 
-// Configure your routes here
 app.use('/api', routes);

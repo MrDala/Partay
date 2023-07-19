@@ -1,6 +1,5 @@
 const { DataTypes, Sequelize } = require('sequelize');
-const sequelize = require('./sequelize');
-
+const sequelize = require('../sequelize');
 
 const Utilisateurs = sequelize.define('Utilisateurs', {
   Id_Utilisateur: {
@@ -43,6 +42,4 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
   tableName: 'Utilisateurs'
 });
 
-module.exports = {
-  Utilisateurs
-};
+module.exports = Utilisateurs;
