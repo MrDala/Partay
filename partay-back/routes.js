@@ -15,7 +15,7 @@ router.post('/utilisateur', async (req, res) => {
 
   try {
     // Vérification des contraintes de la base de données
-    if (!Prenom || !MotDePasse || !Mail || !Telephone || !Nom) {
+    if (!Prenom || !MotDePasse || !Mail || !Nom) {
       return res.status(400).json({ message: 'Veuillez fournir toutes les informations nécessaires.' });
     }
 
@@ -39,19 +39,21 @@ router.post('/utilisateur', async (req, res) => {
     }
 
     // Vérification de l'unicité du Téléphone
-    const existingUserTelephone = await Utilisateurs.findOne({ where: { Telephone } });
-    if (existingUserTelephone) {
-      return res.status(409).json({ message: 'Un utilisateur avec ce numéro de téléphone existe déjà.' });
+    if (Telephone) {
+      const existingUserTelephone = await Utilisateurs.findOne({ where: { Telephone } });
+      if (existingUserTelephone) {
+        return res.status(409).json({ message: 'Un utilisateur avec ce numéro de téléphone existe déjà.' });
+      }
     }
 
     const newUser = await Utilisateurs.create({
-      Id_Utilisateur: uuidv4(),
       Prenom,
       MotDePasse,
       Mail,
       Telephone,
       Nom,
-      DateInscription: new Date()
+      DateInscription: new Date(),
+      DerniereConnexion: new Date()
     });
 
     console.log('New user inserted with ID:', newUser.Id_Utilisateur);
@@ -61,6 +63,7 @@ router.post('/utilisateur', async (req, res) => {
     return res.status(500).send('Internal Server Error');
   }
 });
+
 
 //Connexion d'un utilisateur
 router.post('/connexion', async (req, res) => {

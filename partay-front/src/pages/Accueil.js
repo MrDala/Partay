@@ -1,12 +1,6 @@
-import { useContext } from 'react';
-
-import { UserContext } from '../context/UserContext';
-import { api } from "../api/Api";
-import Content from "../components/Content";
+import { api } from '../api/Api';
 
 function Accueil() {
-  const { utilisateur } = useContext(UserContext);
-  console.log(utilisateur);
 
   function addJhon() {
     const utilisateurData = {
@@ -27,11 +21,11 @@ function Accueil() {
   }
 
   return (
-    <Content className="Accueil">
-      <h1>TEST</h1>
+    <div>
+      <h2>Accueil</h2>
       <button onClick={() => addJhon() }>Ajouter Jhon</button>
-    </Content>
+    </div>
   );
 }
 
-export default Accueil; 
+export default Accueil;

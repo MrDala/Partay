@@ -12,8 +12,7 @@ CREATE TABLE Utilisateurs (
    Mail VARCHAR(50) UNIQUE NOT NULL,
    Telephone VARCHAR(50) UNIQUE,
    DateInscription DATETIME NOT NULL,
-   DateModification DATETIME NOT NULL,
-   
+   DerniereConnexion DATETIME NOT NULL,
    PRIMARY KEY(Id_Utilisateur)
 );
 

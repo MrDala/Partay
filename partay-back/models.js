@@ -32,10 +32,6 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     type: DataTypes.STRING(50),
     allowNull: false
   },
-  DateInscription: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -44,7 +40,7 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: false,
-    field: 'DateModification'
+    field: 'DerniereConnexion'
   }
 }, {
   tableName: 'Utilisateurs', // Nom de la table dans la base de données

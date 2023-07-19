@@ -25,7 +25,7 @@ function Connexion() {
   useEffect(() => {
     // Rediriger vers la page principale si l'utilisateur est connecté
     if (utilisateur) {
-      navigate('/');
+      navigate('/accueil-utilisateur');
     }
   }, [utilisateur, navigate]);
 
