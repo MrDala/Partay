@@ -81,7 +81,7 @@ class Api {
 
   async insertUtilisateur(utilisateurData) {
     try {
-      const response = await axios.post(`${this.baseUrl}/utilisateur`, utilisateurData);
+      const response = await this.post('/utilisateur', utilisateurData);
       return response.data;
     } catch (error) {
       console.error(error);
