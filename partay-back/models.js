@@ -1,8 +1,6 @@
 const { DataTypes, Sequelize } = require('sequelize');
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'mysql'
-});
+const sequelize = require('./sequelize');
+
 
 const Utilisateurs = sequelize.define('Utilisateurs', {
   Id_Utilisateur: {
@@ -32,18 +30,17 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     type: DataTypes.STRING(50),
     allowNull: false
   },
-  createdAt: {
+  DateInscription: {
     type: DataTypes.DATE,
-    allowNull: false,
-    field: 'DateInscription'
+    defaultValue: new Date,
+    allowNull: false
   },
-  updatedAt: {
+  DerniereConnexion: {
     type: DataTypes.DATE,
-    allowNull: false,
-    field: 'DerniereConnexion'
+    allowNull: false
   }
 }, {
-  tableName: 'Utilisateurs', // Nom de la table dans la base de données
+  tableName: 'Utilisateurs'
 });
 
 module.exports = {

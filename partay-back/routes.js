@@ -1,7 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize'); // Import de l'opérateur Op depuis Sequelize
 const router = express.Router();
-const { v4: uuidv4 } = require('uuid');
 const { Utilisateurs } = require('./models'); // Import du modèle Utilisateur
 
 // Define a route for the root URL
@@ -52,8 +51,7 @@ router.post('/utilisateur', async (req, res) => {
       Mail,
       Telephone,
       Nom,
-      DateInscription: new Date(),
-      DerniereConnexion: new Date()
+      DerniereConnexion: new Date(),
     });
 
     console.log('New user inserted with ID:', newUser.Id_Utilisateur);
@@ -64,8 +62,7 @@ router.post('/utilisateur', async (req, res) => {
   }
 });
 
-
-//Connexion d'un utilisateur
+// Connexion d'un utilisateur
 router.post('/connexion', async (req, res) => {
   const { identifiant, motDePasse } = req.body;
 
@@ -84,6 +81,12 @@ router.post('/connexion', async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: 'Identifiants de connexion invalides' });
     }
+
+    // Mise à jour de la propriété DerniereConnexion
+    user.DerniereConnexion = new Date();
+
+    // Enregistrement des modifications dans la base de données
+    await user.save();
 
     return res.status(200).json(user);
   } catch (error) {
