@@ -6,13 +6,16 @@ USE PARTAY;
 -- CREATE Utilisateurs
 CREATE TABLE Utilisateurs (
    Id_Utilisateur VARCHAR(36),
-   Prenom VARCHAR(50) NOT NULL,
-   Nom VARCHAR(50) NOT NULL,
    MotDePasse VARCHAR(50) NOT NULL,
    Mail VARCHAR(50) UNIQUE NOT NULL,
    Telephone VARCHAR(50) UNIQUE,
+   Prenom VARCHAR(50) NOT NULL,
+   Nom VARCHAR(50) NOT NULL,
+   Pseudo VARCHAR(14) NOT NULL,
+   DateNaissance DATE NOT NULL,
    DateInscription DATETIME NOT NULL,
    DerniereConnexion DATETIME NOT NULL,
+   
    PRIMARY KEY(Id_Utilisateur)
 );
 

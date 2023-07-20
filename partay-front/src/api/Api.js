@@ -12,7 +12,6 @@ class Api {
       const response = await axios.get(`${this.baseUrl}${url}`);
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
@@ -29,7 +28,6 @@ class Api {
       });
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
@@ -46,7 +44,6 @@ class Api {
       });
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
@@ -63,7 +60,6 @@ class Api {
       });
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
@@ -84,8 +80,7 @@ class Api {
       const response = await this.post('/utilisateur', utilisateurData);
       return response.message;
     } catch (error) {
-      console.error(error);
-      throw error;
+      throw error.response.data.erreur;
     }
   }
 
@@ -98,8 +93,7 @@ class Api {
       const response = await this.post('/connexion', body);
       return response;
     } catch (error) {
-      console.error(error);
-      throw error;
+      throw error.response.data.erreur;
     }
   }
 

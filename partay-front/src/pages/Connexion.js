@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 import { api } from '../api/Api';
+import CodeErreur from '../api/CodeErreur';
 
 function Connexion() {
   const [identifiant, setIdentifiant] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
   const { utilisateur, setUtilisateur } = useContext(UserContext);
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Fonction de soumission du formulaire de connexion
   const handleSubmit = async (e) => {
@@ -18,7 +20,7 @@ function Connexion() {
       const response = await api.connexion(identifiant, motDePasse);
       setUtilisateur(response);
     } catch (error) {
-      console.error('Erreur lors de la connexion:', error);
+      setErrorMessage(CodeErreur[error]);
     }
   };
 
@@ -41,6 +43,7 @@ function Connexion() {
           <label>Mot de passe:</label>
           <input type="password" value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} />
         </div>
+        {errorMessage && <p>{errorMessage}</p>}
         <button type="submit">Se connecter</button>
       </form>
     </div>

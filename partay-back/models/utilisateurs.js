@@ -7,14 +7,6 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  Prenom: {
-    type: DataTypes.STRING(50),
-    allowNull: false
-  },
-  MotDePasse: {
-    type: DataTypes.STRING(50),
-    allowNull: false
-  },
   Mail: {
     type: DataTypes.STRING(50),
     allowNull: false,
@@ -25,8 +17,24 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     allowNull: true,
     unique: true
   },
+  MotDePasse: {
+    type: DataTypes.STRING(50),
+    allowNull: false
+  },
+  Prenom: {
+    type: DataTypes.STRING(50),
+    allowNull: false
+  },
   Nom: {
     type: DataTypes.STRING(50),
+    allowNull: false
+  },
+  Pseudo: {
+    type: DataTypes.STRING(14),
+    allowNull: false
+  },
+  DateNaissance: {
+    type: DataTypes.DATE,
     allowNull: false
   },
   DateInscription: {
