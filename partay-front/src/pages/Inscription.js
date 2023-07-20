@@ -8,18 +8,11 @@ import CodeErreur from '../erreurs/CodeErreur';
 import Champ from '../composants/Champ';
 
 function Inscription() {
-  /* Déclaration des variables */
+  /* --------------------- DECLARATION DES VARIABLES  ---------------------*/
   const { utilisateur, setUtilisateur } = useContext(UserContext);
   const navigate = useNavigate();
   const [erreurMessage, setErreurMessage] = useState('');
-  const [emailErreur, setEmailErreur] = useState('');
-  const [telephoneErreur, setTelephoneErreur] = useState('');
-  const [mdpErreur, setMdpErreur] = useState('');
-  const [confirmMdpErreur, setConfirmMdpErreur] = useState('');
-  const [pseudoErreur, setPseudoErreur] = useState('');
-  const [dateNaissanceErreur, setDateNaissance] = useState('');
-  const [prenomErreur, setPrenomErreur] = useState('');
-  const [nomErreur, setNomErreur] = useState('');
+  const [formErrors, setFormErrors] = useState({});
   const [inscriptionData, setInscriptionData] = useState({
     Mail: '',
     Telephone: '',
@@ -38,32 +31,58 @@ function Inscription() {
     chiffre: false,
     specialChar: false,
   });
-  /* Fin déclaration des variables */
 
-  /* Déclaration des fonctions */
+  const validationFunctions = {
+    Mail: validateEmail,
+    Telephone: validateTelephone,
+    MotDePasse: validateMotDePasse,
+    ConfirmMotDePasse: validateConfirmerMotDePasse,
+    Pseudo: validatePseudo,
+    DateNaissance: validateDateNaissance,
+    Prenom: validatePrenom,
+    Nom: validateNom,
+  };
 
-  // Enregistrement de l'utilisateur
+  /* ---------- FONCTION COMPORTEMENT PAGE  ---------*/
+  // Envoi du formulaire pour création de compte
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await api.inscription(inscriptionData);
-      setUtilisateur(response);
-    } catch (error) {
-      setErreurMessage(CodeErreurServeur[error]);
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      try {
+        const response = await api.inscription(inscriptionData);
+        setUtilisateur(response);
+      } catch (error) {
+        setErreurMessage(CodeErreurServeur[error]);
+      }
+    } else {
+      setErreurMessage("Veuillez corriger les erreurs dans le formulaire avant de soumettre.");
     }
   };
 
-  // Connexion de l'utilisateur une fois inscrit
+  // Redirection une fois l'utilisateur inscrit
   useEffect(() => {
     if (utilisateur) {
       navigate('/accueil-utilisateur');
     }
   }, [utilisateur, navigate]);
 
-  // Vérification Adresse mail
-  const handleBlurEmail = (e) => {
-    const email = e.target.value;
+  // Vérification dynamique des champs
+  const handleInputChange = (e) => {
+    setInscriptionData({ ...inscriptionData, [e.target.name]: e.target.value });
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+    const fieldErrors = validationFunctions[fieldName](fieldValue);
+
+    // Mettre à jour l'erreur du champ spécifique
+    setFormErrors({ ...formErrors, [fieldName]: fieldErrors });
+  };
+
+  /* --------------------- FONCTIONS DE VALIDATION DES CHAMPS  ---------------------*/
+  // Fonction de validation pour l'adresse email
+  function validateEmail(email) {
     const errors = [];
     const emailReg = new RegExp(
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i
@@ -77,24 +96,22 @@ function Inscription() {
       errors.push(CodeErreur.PARAM_LONGUEUR);
     }
 
-    setEmailErreur(errors);
-  };
+    return errors;
+  }
 
-  // Vérification Téléphone
-  const handleChangeTelephone = (e) => {
-    const telephone = e.target.value;
+  // Fonction de validation pour le numéro de téléphone
+  function validateTelephone(telephone) {
     const errors = [];
 
     if (telephone.length > 50) {
       errors.push(CodeErreur.PARAM_LONGUEUR);
     }
 
-    setTelephoneErreur(errors);
+    return errors;
   }
 
-  // Vérification Mot de passe
-  const handleChangeMotDePasse = (e) => {
-    const motDePasse = e.target.value;
+  // Fonction de validation pour le mot de passe
+  function validateMotDePasse(motDePasse) {
     const errors = [];
     const taille = /.{14,}/;
     const majuscule = /[A-Z]/;
@@ -114,97 +131,106 @@ function Inscription() {
       errors.push(CodeErreur.PARAM_LONGUEUR);
     }
 
-    setMdpErreur(errors);
-  };
+    return errors;
+  }
 
-
-  // Vérification que les deux mots de passe sont identiques
-  const handleChangeConfirmerMotDePasse = (e) => {
-    const confirmMdp = e.target.value;
+  // Fonction de validation pour la confirmation du mot de passe
+  function validateConfirmerMotDePasse(confirmMdp) {
     const errors = [];
 
-    if (inscriptionData.MotDePasse != confirmMdp) {
+    if (inscriptionData.MotDePasse !== confirmMdp) {
       errors.push(CodeErreur.CONFIRM_MDP_DIFF);
     }
 
-    setConfirmMdpErreur(errors);
-  };
+    return errors;
+  }
 
-  // Vérification Pseudo
-  const handleChangePseudo = (e) => {
-    const pseudo = e.target.value;
+  // Fonction de validation pour le pseudo
+  function validatePseudo(pseudo) {
     const errors = [];
 
     if (pseudo.length > 14) {
-      errors.push(CodeErreur.PSEUDO_LONGUEUR)
+      errors.push(CodeErreur.PSEUDO_LONGUEUR);
     }
 
-    setPseudoErreur(errors);
-  };
+    return errors;
+  }
 
-  // Vérification Date de naissance
-  const handleChangeDateNaissance = (e) => {
-    const date = e.target.value;
+  // Fonction de validation pour la date de naissance
+  function validateDateNaissance(date) {
+    return [];
+  }
+
+  // Fonction de validation pour le prénom
+  function validatePrenom(prenom) {
     const errors = [];
 
-    setPseudoErreur(errors);
-  };
-
-  // Vérification Prénom
-  const handleChangePrenom = (e) => {
-    const prenom = e.target.value;
-    const errors = [];
-
-    if (prenom.length > 14) {
-      errors.push(CodeErreur.PARAM_LONGUEUR)
+    if (prenom.length > 50) {
+      errors.push(CodeErreur.PARAM_LONGUEUR);
     }
 
-    setPrenomErreur(errors);
-  };
+    return errors;
+  }
 
-  // Vérification Nom
-  const handleChangeNom = (e) => {
-    const nom = e.target.value;
+  // Fonction de validation pour le nom
+  function validateNom(nom) {
     const errors = [];
 
-    if (nom.length > 14) {
-      errors.push(CodeErreur.PARAM_LONGUEUR)
+    if (nom.length > 50) {
+      errors.push(CodeErreur.PARAM_LONGUEUR);
     }
 
-    setNomErreur(errors);
-  };
+    return errors;
+  }
 
-  /* Fin déclaration des fonctions */
+  function validateField(fieldName, value) {
+    return validationFunctions[fieldName](value);
+  }
+
+  function validateForm() {
+    const errors = {};
+    let isFormValid = true;
+
+    for (const fieldName in inscriptionData) {
+      const fieldValue = inscriptionData[fieldName];
+      const fieldErrors = validateField(fieldName, fieldValue);
+      errors[fieldName] = fieldErrors;
+      if (fieldErrors.length > 0) {
+        isFormValid = false;
+      }
+    }
+
+    setFormErrors(errors);
+    return isFormValid;
+  }
+
+  /* --------------------- FIN  ---------------------*/
 
   /* Contenu HTML */
   return (
     <div>
       <h2>Inscription</h2>
       <form onSubmit={handleSubmit}>
-
+        {/* Your form fields here */}
         <div>
           <h4>Identifiant</h4>
           <Champ
             label={"Adresse mail"}
             type={"email"}
-            name={"mil"}
+            name={"Mail"}
             value={inscriptionData.Mail}
-            onChange={(e) => setInscriptionData({ ...inscriptionData, Mail: e.target.value })}
-            onBlur={handleBlurEmail}
+            onChange={handleInputChange}
             required={true}
-            erreur={emailErreur}
+            erreur={formErrors.Mail}
           />
           <Champ
             label={"Numéro de téléphone"}
             type={"tel"}
-            name={"telephone"}
+            name={"Telephone"}
             value={inscriptionData.Telephone}
-            onChange={(e) => {
-              setInscriptionData({ ...inscriptionData, Telephone: e.target.value })
-              handleChangeTelephone(e);
-            }}
+            onChange={handleInputChange}
             required={true}
-            erreur={telephoneErreur}
+            erreur={formErrors.Telephone}
           />
         </div>
 
@@ -213,35 +239,29 @@ function Inscription() {
           <Champ
             label={"Choisir un mot de passe"}
             type={"password"}
-            name={"motDePasse"}
+            name={"MotDePasse"}
             value={inscriptionData.MotDePasse}
-            onChange={(e) => {
-              setInscriptionData({ ...inscriptionData, MotDePasse: e.target.value });
-              handleChangeMotDePasse(e);
-            }}
+            onChange={handleInputChange}
             required={true}
-            erreur={mdpErreur}
+            erreur={formErrors.MotDePasse}
           >
             <p>
               Votre mot de passe doit contenir :<br />
-              Au moins 14 caractères: {motDePasseValide.taille ? '✓' : '✗'}<br />
-              Au moins 1 lettre majuscule: {motDePasseValide.majuscule ? '✓' : '✗'}<br />
-              Au moins 1 lettre minuscule: {motDePasseValide.minuscule ? '✓' : '✗'}<br />
-              Au moins 1 chiffre: {motDePasseValide.chiffre ? '✓' : '✗'}<br />
-              Au moins 1 caractère spécial: {motDePasseValide.specialChar ? '✓' : '✗'}<br />
+              Au moins 14 caractères: {motDePasseValide?.taille ? '✓' : '✗'}<br />
+              Au moins 1 lettre majuscule: {motDePasseValide?.majuscule ? '✓' : '✗'}<br />
+              Au moins 1 lettre minuscule: {motDePasseValide?.minuscule ? '✓' : '✗'}<br />
+              Au moins 1 chiffre: {motDePasseValide?.chiffre ? '✓' : '✗'}<br />
+              Au moins 1 caractère spécial: {motDePasseValide?.specialChar ? '✓' : '✗'}<br />
             </p>
           </Champ>
           <Champ
             label={"Confirmer le mot de passe"}
             type={"password"}
-            name={"confirmMotDePasse"}
+            name={"ConfirmMotDePasse"}
             value={inscriptionData.ConfirmMotDePasse}
-            onChange={(e) => {
-              setInscriptionData({ ...inscriptionData, ConfirmMotDePasse: e.target.value })
-              handleChangeConfirmerMotDePasse(e);
-            }}
+            onChange={handleInputChange}
             required={true}
-            erreur={confirmMdpErreur}
+            erreur={formErrors.ConfirmMotDePasse}
           />
         </div>
 
@@ -249,48 +269,36 @@ function Inscription() {
           <h4>Informations complémentaires</h4>
           <Champ
             label={"Pseudo"}
-            name={"pseudo"}
+            name={"Pseudo"}
             value={inscriptionData.Pseudo}
-            onChange={(e) => {
-              setInscriptionData({ ...inscriptionData, Pseudo: e.target.value })
-              handleChangePseudo(e);
-            }}
+            onChange={handleInputChange}
             required={true}
-            erreur={pseudoErreur}
+            erreur={formErrors.Pseudo}
           />
           <Champ
             label={"Date de naissance"}
             type={"date"}
-            name={"dateNaissance"}
+            name={"DateNaissance"}
             value={inscriptionData.DateNaissance}
-            onChange={(e) => {
-              setInscriptionData({ ...inscriptionData, DateNaissance: e.target.value })
-              handleChangeDateNaissance(e);
-            }}
+            onChange={handleInputChange}
             required={true}
-            erreur={dateNaissanceErreur}
+            erreur={formErrors.DateNaissance}
           />
           <Champ
             label={"Prénom"}
-            name={"prenom"}
+            name={"Prenom"}
             value={inscriptionData.Prenom}
-            onChange={(e) => {
-              setInscriptionData({ ...inscriptionData, Prenom: e.target.value })
-              handleChangePrenom(e);
-            }}
+            onChange={handleInputChange}
             required={true}
-            erreur={prenomErreur}
+            erreur={formErrors.Prenom}
           />
           <Champ
             label={"Nom"}
-            name={"nom"}
+            name={"Nom"}
             value={inscriptionData.Nom}
-            onChange={(e) => {
-              setInscriptionData({ ...inscriptionData, Nom: e.target.value })
-              handleChangeNom(e);
-            }}
+            onChange={handleInputChange}
             required={true}
-            erreur={nomErreur}
+            erreur={formErrors.Nom}
           />
         </div>
 
