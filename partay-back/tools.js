@@ -1,19 +1,26 @@
 const CodeErreur = require("./CodeErreur");
 
 const contrainteMotDePasse = (MotDePasse) => {
-  if (!/.{14,}/.test(MotDePasse)) {
+
+  const taille = /.{14,}/;
+  const majuscule = /[A-Z]/;
+  const minuscule = /[a-z]/;
+  const chiffre = /[0-9]/;
+  const specialChar = /\W/;
+
+  if (!taille.test(MotDePasse)) {
     return CodeErreur.MDP_TAILLE;
 
-  } else if (!/[A-Z]/.test(MotDePasse)) {
+  } else if (!majuscule.test(MotDePasse)) {
     return CodeErreur.MDP_MAJUSCULE;
 
-  } else if (!/[a-z]/.test(MotDePasse)) {
+  } else if (!minuscule.test(MotDePasse)) {
     return CodeErreur.MDP_MINUSCULE;
 
-  } else if (!/[0-9]/.test(MotDePasse)) {
+  } else if (!chiffre.test(MotDePasse)) {
     return CodeErreur.MDP_CHIFFRE;
 
-  } else if (!/\W/.test(MotDePasse)) {
+  } else if (!specialChar.test(MotDePasse)) {
     return CodeErreur.MDP_CARACTERE_SPECIAL;
   }
 

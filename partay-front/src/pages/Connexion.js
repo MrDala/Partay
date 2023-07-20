@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 import { api } from '../api/Api';
-import CodeErreur from '../api/CodeErreur';
+import CodeErreurServeur from '../erreurs/CodeErreurServeur';
 
 function Connexion() {
   const [identifiant, setIdentifiant] = useState('');
@@ -20,7 +20,7 @@ function Connexion() {
       const response = await api.connexion(identifiant, motDePasse);
       setUtilisateur(response);
     } catch (error) {
-      setErrorMessage(CodeErreur[error]);
+      setErrorMessage(CodeErreurServeur[error]);
     }
   };
 

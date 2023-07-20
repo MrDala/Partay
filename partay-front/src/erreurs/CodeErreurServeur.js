@@ -1,4 +1,4 @@
-const CodeErreur = {
+const CodeErreurServeur = {
   //COMMUN
   ERREUR_SERVEUR: 'Une erreur serveur est survenue.',
   PARAM_MANQUANT: 'Tous les champs obligatoire doivent être remplis.',
@@ -20,4 +20,4 @@ const CodeErreur = {
   IDENTIFIANTS_INVALIDES: 'Identifiant ou mot de passe incorrect.',
 };
 
-module.exports = CodeErreur;
+module.exports = CodeErreurServeur;
