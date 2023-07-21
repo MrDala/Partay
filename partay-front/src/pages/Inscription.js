@@ -85,15 +85,17 @@ function Inscription() {
   function validateEmail(email) {
     const errors = [];
     const emailReg = new RegExp(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i
     );
 
-    if (!emailReg.test(email)) {
-      errors.push(CodeErreur.MAIL_FORMAT);
-    }
-
-    if (email.length > 50) {
-      errors.push(CodeErreur.PARAM_LONGUEUR);
+    if (email.length > 0) {
+      if (!emailReg.test(email)) {
+        errors.push(CodeErreur.MAIL_FORMAT);
+      }
+  
+      if (email.length > 50) {
+        errors.push(CodeErreur.PARAM_LONGUEUR);
+      }
     }
 
     return errors;
@@ -190,6 +192,7 @@ function Inscription() {
   function validateForm() {
     const errors = {};
     let isFormValid = true;
+    let hasMailOrTelephone = inscriptionData.Mail || inscriptionData.Telephone; 
 
     for (const fieldName in inscriptionData) {
       const fieldValue = inscriptionData[fieldName];
@@ -198,6 +201,13 @@ function Inscription() {
       if (fieldErrors.length > 0) {
         isFormValid = false;
       }
+    }
+
+    // Si aucun des deux champs n'est rempli, ajouter une erreur
+    if (!hasMailOrTelephone) {
+      errors.Mail = [CodeErreur.PARAM_OBLIGATOIRE];
+      errors.Telephone = [CodeErreur.PARAM_OBLIGATOIRE];
+      isFormValid = false;
     }
 
     setFormErrors(errors);
@@ -220,7 +230,7 @@ function Inscription() {
             name={"Mail"}
             value={inscriptionData.Mail}
             onChange={handleInputChange}
-            required={true}
+            required={!inscriptionData.Telephone}
             erreur={formErrors.Mail}
           />
           <Champ
@@ -229,7 +239,7 @@ function Inscription() {
             name={"Telephone"}
             value={inscriptionData.Telephone}
             onChange={handleInputChange}
-            required={true}
+            required={!inscriptionData.Mail}
             erreur={formErrors.Telephone}
           />
         </div>
@@ -284,12 +294,15 @@ function Inscription() {
             required={true}
             erreur={formErrors.DateNaissance}
           />
+        </div>
+
+        <div>
+          <h4>Informations optionnelles</h4>
           <Champ
             label={"Prénom"}
             name={"Prenom"}
             value={inscriptionData.Prenom}
             onChange={handleInputChange}
-            required={true}
             erreur={formErrors.Prenom}
           />
           <Champ
@@ -297,7 +310,6 @@ function Inscription() {
             name={"Nom"}
             value={inscriptionData.Nom}
             onChange={handleInputChange}
-            required={true}
             erreur={formErrors.Nom}
           />
         </div>
