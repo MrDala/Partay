@@ -39,7 +39,7 @@ CREATE TABLE Contact (
    CONSTRAINT contrainte_interne_exeterne CHECK (
        (Id_Contact IS NOT NULL) OR
        ((Mail IS NOT NULL OR Telephone IS NOT NULL) AND
-       (Prenom IS NOT NULL OR Nom IS NOT NULL OR Pseudo IS NOT NULL))
+       (Prenom IS NOT NULL OR Pseudo IS NOT NULL))
    )
 );
 
