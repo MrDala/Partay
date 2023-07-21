@@ -58,7 +58,7 @@ function Inscription() {
         setErreurMessage(CodeErreurServeur[error]);
       }
     } else {
-      setErreurMessage("Veuillez corriger les erreurs dans le formulaire avant de soumettre.");
+      setErreurMessage(CodeErreur.FORM_ERROR);
     }
   };
 

@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
 
 const CodeErreur = require('../CodeErreur');
-const { contrainteMotDePasse } = require('../tools');
+const { contrainteMotDePasse, transformEmptyStringToNull } = require('../tools');
 
 const Utilisateurs = sequelize.define('Utilisateurs', {
   Id_Utilisateur: {
@@ -14,41 +14,40 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     type: DataTypes.STRING(50),
     allowNull: true,
     unique: {
-      msg: CodeErreur.EMAIL_UNIQUE
+      msg: CodeErreur.UNIQUE_EMAIL,
     },
-    isEitherMailOrTelephone(value) {
-      const emailReg = new RegExp(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i
-      );
-
-      if (!value && !this.Telephone) {
-        throw new Error(CodeErreur.IDENTIFIANT_MANQUANT);
-      } else if (value && !emailReg.test(value)) {
-        throw new Error(CodeErreur.EMAIL_FORMAT)
-      }
+    validate: {
+      isEitherMailOrTelephone() {
+        if (!this.Mail && !this.Telephone) {
+          throw new Error(CodeErreur.IDENTIFIANT_MANQUANT);
+        }
+      },
+      isEmailIfMailProvided() {
+        if (this.Mail && !/^.+@.+\..+$/.test(this.Mail)) {
+          throw new Error(CodeErreur.EMAIL_FORMAT);
+        }
+      },
+      isNotTooLong(value) {
+        if (value && value.length > 50) {
+          throw new Error(CodeErreur.PARAM_LONGUEUR);
+        }
+      },
     },
-    isNotTooLong(value) {
-      if (value.length > 50) {
-        throw new Error(CodeErreur.PARAM_LONGUEUR);
-      }
-    }
   },
   Telephone: {
     type: DataTypes.STRING(50),
     allowNull: true,
     unique: {
-      msg: CodeErreur.TELEPHONE_UNIQUE
+      msg: CodeErreur.TELEPHONE_UNIQUE,
     },
-    isEitherMailOrTelephone(value) {
+    validate(value) {
       if (!value && !this.Mail) {
-        throw new Error('Au moins une adresse mail ou un numéro de téléphone doit être renseigné.');
+        throw new Error(CodeErreur.IDENTIFIANT_MANQUANT);
       }
-    },
-    isNotTooLong(value) {
-      if (value.length > 50) {
+      if (value && value.length > 50) {
         throw new Error(CodeErreur.PARAM_LONGUEUR);
       }
-    }
+    },
   },
   MotDePasse: {
     type: DataTypes.STRING(50),
@@ -56,6 +55,7 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     validate: {
       isValidPassword(value) {
         const validationError = contrainteMotDePasse(value);
+        
         if (validationError !== true) {
           throw new Error(validationError);
         }
@@ -67,7 +67,7 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     allowNull: false,
     validate: {
       isNotTooLong(value) {
-        if (value.length > 14) {
+        if (value && value.length > 14) {
           throw new Error(CodeErreur.PSEUDO_LONGUEUR);
         }
       }
@@ -91,7 +91,7 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     allowNull: true,
     validate: {
       isNotTooLong(value) {
-        if (value.length > 50) {
+        if (value && value.length > 50) {
           throw new Error(CodeErreur.PARAM_LONGUEUR);
         }
       }
@@ -102,12 +102,19 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
     allowNull: true,
     validate: {
       isNotTooLong(value) {
-        if (value.length > 50) {
+        if (value && value.length > 50) {
           throw new Error(CodeErreur.PARAM_LONGUEUR);
         }
       }
     }
   }
+},
+{
+  hooks: {
+    beforeValidate: (utilisateur) => {
+      utilisateur.set(transformEmptyStringToNull(utilisateur.dataValues));
+    },
+  },
 });
 
 module.exports = Utilisateurs;

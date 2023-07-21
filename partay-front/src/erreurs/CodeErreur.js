@@ -2,6 +2,8 @@ const CodeErreur = {
   //INSCRIPTION
   PARAM_MANQUANT: 'Tous les champs obligatoires doivent être remplis.',
   PARAM_LONGUEUR: 'Le nombre de caractères ne doit pas dépasser 50.',
+  
+  FORM_ERROR : 'Veuillez corriger les erreurs dans le formulaire avant de soumettre.',
 
   MAIL_FORMAT: 'L\'adresse mail doit être valide.',
 

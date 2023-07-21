@@ -27,7 +27,17 @@ const contrainteMotDePasse = (MotDePasse) => {
   return true;
 };
 
-module.exports = {contrainteMotDePasse}
+function transformEmptyStringToNull(data) {
+  const transformedData = { ...data };
+  for (const key in transformedData) {
+    if (transformedData[key] === "") {
+      transformedData[key] = null;
+    }
+  }
+  return transformedData;
+}
+
+module.exports = {contrainteMotDePasse, transformEmptyStringToNull}
 
 
 
