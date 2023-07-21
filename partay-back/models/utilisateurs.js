@@ -111,6 +111,3 @@ const Utilisateurs = sequelize.define('Utilisateurs', {
 });
 
 module.exports = Utilisateurs;
-
-
-module.exports = Utilisateurs;
