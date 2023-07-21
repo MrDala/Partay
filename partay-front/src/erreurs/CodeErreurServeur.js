@@ -6,8 +6,10 @@ const CodeErreurServeur = {
   //INSCRIPTION
   ECHEC_INSCRIPTION: 'Impossible de finaliser l\'inscription.',
   PARAM_LONGUEUR: 'La taille des champs est limité à 50 caractères.',
+  IDENTIFIANT_MANQUANT: 'Au moins un des champs mail ou téléphone doit être saisi.',
 
   EMAIL_UNIQUE: 'Cette adresse mail est déjà utilisée.',
+  EMAIL_FORMAT : 'L\'adresse mail ne respecte pas le format attendu.',
   TELEPHONE_UNIQUE: 'Ce numéro de téléphone est déjà utilisé.',
 
   MDP_TAILLE: 'Le mot de passe doit contenir au moins 14 caractères.',
