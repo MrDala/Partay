@@ -273,5 +273,27 @@ router.get('/evenements/organiser/:id_utilisateur', async (req, res) => {
   }
 });
 
+// Ajout ou mdofication d'une invitation
+router.post('/invitations', async (req, res) => {
+  const {Id_Utilisateur, Id_Evenement, Reponse} = req.body;
+
+  try {
+    const invitation = await Invitations.create({
+      Id_Utilisateur: Id_Utilisateur,
+      Id_Evenement: Id_Evenement,
+      Reponse: Reponse,
+    });
+
+    const message = 'Création de l\'invitation réussie : [' + invitation.Id_Evenement + " / " + invitation.Id_Utilisateur + "]";
+    console.log(message);
+
+    return res.status(201).json({ message: message });
+  } catch (error) {
+    console.error('Error inserting user:', error);
+
+    return res.status(500).json({ erreur: CodeErreur.ERREUR_SERVEUR });
+  }
+});
+
 // Export the router instance
 module.exports = router;
