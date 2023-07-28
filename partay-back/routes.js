@@ -3,8 +3,11 @@ const { Op } = require('sequelize'); // Import de l'opérateur Op depuis Sequeli
 const router = express.Router();
 
 const Utilisateurs = require('./models/Utilisateurs');
-const Contacts = require('./models/contact');
+const Contacts = require('./models/Contacts');
+const Evenements = require('./models/Evenements');
+
 const CodeErreur = require('./CodeErreur');
+const Invitations = require('./models/Invitations');
 
 // Define a route for the root URL
 router.get('/test/', (req, res) => {
@@ -13,17 +16,16 @@ router.get('/test/', (req, res) => {
 
 // Création d'un utilisateur
 router.post('/utilisateur', async (req, res) => {
-  console.log(req.body);
-
+  const {Mail, Telephone, MotDePasse, Pseudo, DateNaissance, Prenom, Nom} = req.body;
   try {
     const newUser = await Utilisateurs.create({
-      Mail: req.body.Mail,
-      Telephone: req.body.Telephone,
-      MotDePasse: req.body.MotDePasse,
-      Pseudo: req.body.Pseudo,
-      DateNaissance: req.body.DateNaissance,
-      Prenom: req.body.Prenom,
-      Nom: req.body.Nom,
+      Mail: Mail,
+      Telephone: Telephone,
+      MotDePasse: MotDePasse,
+      Pseudo: Pseudo,
+      DateNaissance: DateNaissance,
+      Prenom: Prenom,
+      Nom: Nom,
       DerniereConnexion: new Date(),
     });
 
@@ -196,6 +198,80 @@ router.post('/contacts/ajout', async (req, res) => {
   return res.status(statusCode).json(contact);
 });
 
+// Création d'un évènement
+router.post('/evenements/ajout', async (req, res) => {
+  const {Organisateur, Nom, Presentation, Lieu, DateDebut, DateFin} = req.body;
+
+  try {
+    const newEvenement = await Utilisateurs.create({
+      Organisateur: Organisateur,
+      Nom: Nom,
+      Presentation: Presentation,
+      Lieu: Lieu,
+      DateDebut: DateDebut,
+      DateFin: DateFin
+    });
+
+    const message = 'Création de l\'évènement réussi : ' + newEvenement.Id_Evenement;
+    console.log(message);
+
+    return res.status(201).json({ message: message });
+  } catch (error) {
+    console.error('Error inserting user:', error);
+
+    return res.status(500).json({ erreur: CodeErreur.ERREUR_SERVEUR });
+  }
+});
+
+// Détail d'un évènement
+router.get('/evenements/:id_evenement', async (req, res) => {
+  const Id_Evenement = req.params.id_evenement;
+
+  try {
+    const evenement = await Evenements.findByPk(Id_Evenement);
+    if (!evenement) {
+      return res.status(404).json({ erreur: CodeErreur.EVENEMENT_NON_TROUVE });
+    }
+
+    const invitations = await Invitations.findAll({
+      where: {
+        Id_Evenement: Id_Evenement
+      }
+    })
+
+    const detailEvenement = {
+      evenement,
+      invitations
+    }
+
+    return res.status(200).json(detailEvenement);
+    
+  } catch (error) {
+    console.error('Error inserting user:', error);
+
+    return res.status(500).json({ erreur: CodeErreur.ERREUR_SERVEUR });
+  }
+});
+
+// Liste des évènements organisés
+router.get('/evenements/organiser/:id_utilisateur', async (req, res) => {
+  const Id_Utilisateur = req.params.id_utilisateur;
+
+  try {
+    const evenements = await Evenements.findAll({
+      where: {
+        Organisateur: Id_Utilisateur
+      }
+    });
+
+    return res.status(200).json(evenements);
+    
+  } catch (error) {
+    console.error('Error inserting user:', error);
+
+    return res.status(500).json({ erreur: CodeErreur.ERREUR_SERVEUR });
+  }
+});
 
 // Export the router instance
 module.exports = router;
