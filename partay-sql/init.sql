@@ -22,8 +22,8 @@ CREATE TABLE Utilisateurs (
    )
 );
 
--- CREATE Contact
-CREATE TABLE Contact (
+-- CREATE Contacts
+CREATE TABLE Contacts (
    Id_Utilisateur VARCHAR(36) NOT NULL,
    Id_Contact VARCHAR(36),
    Mail VARCHAR(50),

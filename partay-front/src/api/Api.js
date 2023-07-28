@@ -97,6 +97,24 @@ class Api {
     }
   }
 
+  async getContacts(Id_Utilisateur) {
+    try {
+      const response = await this.get(`/contacts/${Id_Utilisateur}`);
+      return response;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async ajoutContact(contactData) {
+    try {
+      const response = await this.post('/contacts/ajout', contactData);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
 }
 
 export const api = new Api("http://localhost:3000/api");
