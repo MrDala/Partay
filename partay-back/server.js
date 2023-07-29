@@ -12,12 +12,6 @@ const routerContacts = require('./routes/contacts');
 const routerEvenements = require('./routes/evenements');
 const routerInvitations = require('./routes/invitations');
 
-app.use('/test', routerTest);
-app.use('/utilisateurs', routerUtilisateurs);
-app.use('/contacts', routerContacts);
-app.use('/evenements', routerEvenements);
-app.use('/invitations', routerInvitations);
-
 app.use(express.json());
 
 app.use(cors({
@@ -38,3 +32,9 @@ sequelize
 app.listen(port, () => {
   console.log('Server is running on port 3000');
 });
+
+app.use('/test', routerTest);
+app.use('/utilisateurs', routerUtilisateurs);
+app.use('/contacts', routerContacts);
+app.use('/evenements', routerEvenements);
+app.use('/invitations', routerInvitations);
