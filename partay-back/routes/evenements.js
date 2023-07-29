@@ -4,6 +4,7 @@ const router = express.Router();
 const Evenements = require('../models/Evenements');
 
 const CodeErreur = require('../erreurs/CodeErreur');
+const Invitations = require('../models/Invitations');
 
 // Création d'un évènement
 router.post('/ajout', async (req, res) => {
