@@ -2,17 +2,27 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const routes = require('./routes');
 const app = express();
 const port = process.env.PORT;
 const sequelize = require('./sequelize'); // Importez la constante sequelize depuis le fichier sequelize.js
 
+const routerTest = require('./routes/test');
+const routerUtilisateurs = require('./routes/utilisateurs');
+const routerContacts = require('./routes/contacts');
+const routerEvenements = require('./routes/evenements');
+const routerInvitations = require('./routes/invitations');
+
+app.use('/test', routerTest);
+app.use('/utilisateurs', routerUtilisateurs);
+app.use('/contacts', routerContacts);
+app.use('/evenements', routerEvenements);
+app.use('/invitations', routerInvitations);
+
 app.use(express.json());
 
-// Enable CORS for all routes
 app.use(cors({
-  origin: 'http://localhost:3001', // Allow requests from http://localhost:3001
-  optionsSuccessStatus: 200 // Set the status code for successful preflight requests to 200
+  origin: 'http://localhost:3001',
+  optionsSuccessStatus: 200
 }));
 
 // Connect to MySQL database
@@ -28,5 +38,3 @@ sequelize
 app.listen(port, () => {
   console.log('Server is running on port 3000');
 });
-
-app.use('/api', routes);

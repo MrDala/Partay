@@ -77,7 +77,7 @@ class Api {
 
   async inscription(utilisateurData) {
     try {
-      const response = await this.post('/utilisateur', utilisateurData);
+      const response = await this.post('/utilisateurs/ajout', utilisateurData);
       return response.message;
     } catch (error) {
       throw error.response.data.erreur;
@@ -90,7 +90,7 @@ class Api {
         identifiant: identifiant,
         motDePasse: motDePasse
       };
-      const response = await this.post('/connexion', body);
+      const response = await this.post('/utilisateurs/connexion', body);
       return response;
     } catch (error) {
       throw error.response.data.erreur;
@@ -117,4 +117,4 @@ class Api {
 
 }
 
-export const api = new Api("http://localhost:3000/api");
+export const api = new Api("http://localhost:3000");

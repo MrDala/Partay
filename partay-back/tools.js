@@ -1,4 +1,4 @@
-const CodeErreur = require("./CodeErreur");
+const CodeErreur = require("./erreurs/CodeErreur");
 
 const contrainteMotDePasse = (MotDePasse) => {
 

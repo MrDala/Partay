@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
 
-const CodeErreur = require('../CodeErreur');
+const CodeErreur = require('../erreurs/CodeErreur');
 const { contrainteMotDePasse, transformEmptyStringToNull } = require('../tools');
 
 const Utilisateurs = sequelize.define('Utilisateurs', {
