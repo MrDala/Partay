@@ -194,6 +194,33 @@ class Api {
   }
 
   /** INVITATIONS */
+
+  async ajoutInvitation(invitationData) {
+    try {
+      const response = await this.post('/invitation/ajout', invitationData);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async reponseInvitation(Id_Invitation, reponse) {
+    try {
+      const response = await this.put(`/invitations/reponse/${Id_Invitation}`, reponse);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async supprimerInvitation(Id_Invitation) {
+    try {
+      const response = await this.delete(`/invitations/suppression/${Id_Invitation}`);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
 }
 
 export const api = new Api("http://localhost:3000");

@@ -27,7 +27,7 @@ router.post('/ajout', async (req, res) => {
 });
 
 // Modification de la réponse d'un utilisateur
-router.put('/modification/:id', async (req, res) => {
+router.put('/reponse/:id', async (req, res) => {
   const invitationId = req.params.id; // Récupérer l'ID de l'invitation à modifier
   const { Reponse } = req.body;
 
@@ -60,7 +60,6 @@ router.put('/modification/:id', async (req, res) => {
   }
 });
 
-
 // Suppression d'une invitation
 router.delete('/suppression/:id', async (req, res) => {
   const invitationId = req.params.id; 
@@ -85,6 +84,16 @@ router.delete('/suppression/:id', async (req, res) => {
     console.error('Error deleting invitation:', error);
     return res.status(500).json({ erreur: CodeErreur.ERREUR_SERVEUR });
   }
+});
+
+// Récupère toutes les invitations relatives à un évènement
+router.get('/:id_evenement', async (req, res) => {
+
+});
+
+// Récupère toutes les invitations pour un utilisateur
+router.get('/:id_utilisateur', async (req, res) => {
+  
 });
 
 module.exports = router;
