@@ -88,12 +88,35 @@ router.delete('/suppression/:id', async (req, res) => {
 
 // Récupère toutes les invitations relatives à un évènement
 router.get('/:id_evenement', async (req, res) => {
+  const Id_Evenement = req.params.id_evenement;
 
+  try {
+    const invitations = await Invitations.findAll({
+      where: { Id_Evenement: Id_Evenement }
+    });
+
+    return res.status(200).json(invitations);
+  } catch (error) {
+    console.error('Error fetching invitations for event:', error);
+    return res.status(500).json({ erreur: CodeErreur.ERREUR_SERVEUR });
+  }
 });
+
 
 // Récupère toutes les invitations pour un utilisateur
 router.get('/:id_utilisateur', async (req, res) => {
-  
+  const Id_Utilisateur = req.params.id_utilisateur;
+
+  try {
+    const invitations = await Invitations.findAll({
+      where: { Id_Utilisateur: Id_Utilisateur }
+    });
+
+    return res.status(200).json(invitations);
+  } catch (error) {
+    console.error('Error fetching invitations for user:', error);
+    return res.status(500).json({ error: CodeErreur.ERREUR_SERVEUR});
+  }
 });
 
 module.exports = router;

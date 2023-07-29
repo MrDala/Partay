@@ -221,6 +221,24 @@ class Api {
       throw error.response.data.erreur;
     }
   }
+
+  async getInvitationsUtilisateur(Id_Utilisateur) {
+    try {
+      const response = await this.get(`/${Id_Utilisateur}`);
+      return response;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async getInvitationsEvenement(Id_Evenement) {
+    try {
+      const response = await this.get(`/${Id_Evenement}`);
+      return response;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
 }
 
 export const api = new Api("http://localhost:3000");
