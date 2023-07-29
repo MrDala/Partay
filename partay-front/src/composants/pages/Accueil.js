@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Accueil() {
   return (
-    <div>
+    <div className='Accueil'>
       <h2>Accueil</h2>
       <div>
         <Link to="/connexion">

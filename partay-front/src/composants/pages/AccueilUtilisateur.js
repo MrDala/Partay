@@ -1,10 +1,8 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { UserContext } from '../context/UserContext';
-import Content from "../composants/Content";
-import "../css/pages/AccueilUtilisateur.css";
-import { api } from '../api/Api';
+import { UserContext } from '../../context/UserContext';
+import { api } from '../../api/Api';
 
 function AccueilUtilisateur() {
   const { utilisateur } = useContext(UserContext);
@@ -31,11 +29,11 @@ function AccueilUtilisateur() {
   
 
   return (
-    <Content className="AccueilUtilisateur">
+    <div className="AccueilUtilisateur">
       <h1>Accueil</h1>
       <button onClick={() => ajoutContact()}>Ajout Contact</button>
       <button onClick={() => getContact()}>Voir Contacts</button>
-    </Content>
+    </div>
   );
 }
 

@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
 
-import { api } from '../api/Api';
-import CodeErreurServeur from '../erreurs/CodeErreurServeur';
+import { UserContext } from '../../context/UserContext';
+import { api } from '../../api/Api';
+import CodeErreurServeur from '../../erreurs/CodeErreurServeur';
 
 function Connexion() {
   const [identifiant, setIdentifiant] = useState('');
@@ -32,7 +32,7 @@ function Connexion() {
   }, [utilisateur, navigate]);
 
   return (
-    <div>
+    <div className='Connexion'>
       <h2>Connexion</h2>
       <form onSubmit={handleSubmit}>
         <div>

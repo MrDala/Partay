@@ -1,8 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { UserContext } from '../context/UserContext';
-import Content from "../composants/Content";
+import { UserContext } from '../../context/UserContext';
 
 function Contact() {
   const { utilisateur } = useContext(UserContext);
@@ -15,9 +14,9 @@ function Contact() {
   }, [utilisateur, navigate]);
 
   return (
-    <Content className="Contact">
-      <h1>Accueil</h1>
-    </Content>
+    <div className="Contact">
+      <h1>Contact</h1>
+    </div>
   );
 }
 

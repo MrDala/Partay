@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import AccueilUtilisateur from "../pages/AccueilUtilisateur";
-import Connexion from "../pages/Connexion";
-import Accueil from "../pages/Accueil";
-import Inscription from "../pages/Inscription";
+import AccueilUtilisateur from "../composants/pages/AccueilUtilisateur";
+import Connexion from "../composants/pages/Connexion";
+import Accueil from "../composants/pages/Accueil";
+import Inscription from "../composants/pages/Inscription";
 
 
 export const router = createBrowserRouter([

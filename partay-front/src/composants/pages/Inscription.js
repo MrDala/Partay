@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 
-import { api } from '../api/Api';
-import CodeErreurServeur from '../erreurs/CodeErreurServeur';
-import CodeErreur from '../erreurs/CodeErreur';
-import Champ from '../composants/Champ';
+import { api } from '../../api/Api';
+import CodeErreurServeur from '../../erreurs/CodeErreurServeur';
+import CodeErreur from '../../erreurs/CodeErreur';
+import Champ from '../atoms/Champ';
 
 function Inscription() {
   /* --------------------- DECLARATION DES VARIABLES  ---------------------*/
@@ -218,7 +218,7 @@ function Inscription() {
 
   /* Contenu HTML */
   return (
-    <div>
+    <div className='Inscription'>
       <h2>Inscription</h2>
       <form onSubmit={handleSubmit}>
         {/* Your form fields here */}

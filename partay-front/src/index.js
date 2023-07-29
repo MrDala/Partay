@@ -4,7 +4,6 @@ import { RouterProvider } from "react-router-dom";
 
 import { UserProvider } from './context/UserContext';
 import { router } from './router/Rooter';
-import "./css/App.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
