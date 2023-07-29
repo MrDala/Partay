@@ -42,8 +42,9 @@ router.post('/ajout', async (req, res) => {
   }
 });
 
-router.put('/modification/:id', async (req, res) => {
-  const userId = req.params.id;
+// Modifier le compte d'un utilisateur
+router.put('/modification/:id_utilisateur', async (req, res) => {
+  const userId = req.params.id_utilisateur;
   const { Mail, Telephone, MotDePasse, Pseudo, DateNaissance, Prenom, Nom } = req.body;
 
   try {
@@ -87,7 +88,7 @@ router.put('/modification/:id', async (req, res) => {
   }
 });
 
-
+// Suppression d'un compte utilisateur
 router.delete('/suppression/:id', async (req, res) => {
   const userId = req.params.id;
 

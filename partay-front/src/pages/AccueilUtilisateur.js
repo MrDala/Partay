@@ -17,7 +17,7 @@ function AccueilUtilisateur() {
   }, [utilisateur, navigate]);
 
   function ajoutContact() {
-    api.ajoutContact({Id_Utilisateur : "9c7781c3-44be-417c-8360-7941c40a5501", Id_Contact:"9c7781c3-44be-417c-8360-7941c40a5501"});
+    api.ajoutContact({Id_Utilisateur : "2e2c054b-32b6-4e5f-91ac-57df854a2c70", Id_Contact:"9441ed7b-87b3-4d3b-9753-19c7ce75c67c"});
   }
 
   async function getContact() {

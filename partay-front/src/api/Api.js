@@ -68,16 +68,36 @@ class Api {
 
   async testConnexion() {
     try {
-      const connexion = await this.get(`/test/`);
+      const connexion = await this.get(`/test/test`);
       console.log(connexion);
     } catch (error) {
       console.error("Connexion KO " + error);
     }
   }
 
-  async inscription(utilisateurData) {
+  /** UTILISATEURS */
+
+  async ajouterUtilisateur(utilisateurData) {
     try {
       const response = await this.post('/utilisateurs/ajout', utilisateurData);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async modifierUtilisateur(utilisateurData) {
+    try {
+      const response = await this.put(`/utilisateurs/modification/${utilisateurData.Id_Utilisateur}`, utilisateurData);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async supprimerUtilisateur(Id_Utilisateur) {
+    try {
+      const response = await this.delete(`/utilisateurs/suppression/${Id_Utilisateur}`);
       return response.message;
     } catch (error) {
       throw error.response.data.erreur;
@@ -97,14 +117,7 @@ class Api {
     }
   }
 
-  async getContacts(Id_Utilisateur) {
-    try {
-      const response = await this.get(`/contacts/${Id_Utilisateur}`);
-      return response;
-    } catch (error) {
-      throw error.response.data.erreur;
-    }
-  }
+  /** CONTACTS */
 
   async ajoutContact(contactData) {
     try {
@@ -115,6 +128,72 @@ class Api {
     }
   }
 
+  async supprimerContact(Id_Contact) {
+    try {
+      const response = await this.delete(`/contacts/suppression/${Id_Contact}`);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async getContacts(Id_Utilisateur) {
+    try {
+      const response = await this.get(`/contacts/${Id_Utilisateur}`);
+      return response;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  /** EVENEMENTS */
+
+  async ajoutEvenement(evenementData) {
+    try {
+      const response = await this.post('/evenements/ajout', evenementData);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async modifierEvenement(evenementData) {
+    try {
+      const response = await this.put(`/evenements/modification/${evenementData.Id_Evenement}`, evenementData);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async supprimerEvenement(Id_Evenement) {
+    try {
+      const response = await this.delete(`/evenements/suppression/${Id_Evenement}`);
+      return response.message;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async getDetailEvenement(Id_Evenement) {
+    try {
+      const response = await this.get(`/evenements/${Id_Evenement}`);
+      return response;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  async getListeEvenementsOrganisateur(Id_Utilisateur) {
+    try {
+      const response = await this.get(`/evenements/organisateur/${Id_Utilisateur}`);
+      return response;
+    } catch (error) {
+      throw error.response.data.erreur;
+    }
+  }
+
+  /** INVITATIONS */
 }
 
 export const api = new Api("http://localhost:3000");

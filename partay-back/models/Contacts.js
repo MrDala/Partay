@@ -6,18 +6,26 @@ const { transformEmptyStringToNull } = require('../tools');
 const Utilisateurs = require('./Utilisateurs'); 
 
 const Contacts = sequelize.define('Contacts', {
+  Id_Contact: {
+    type: DataTypes.STRING(36),
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
   Id_Utilisateur: {
     type: DataTypes.STRING(36),
     allowNull: false,
-    primaryKey: true,
     references: {
       model: Utilisateurs,
       key: 'Id_Utilisateur',
     },
   },
-  Id_Contact: {
+  Id_Utilisateur_Contact: {
     type: DataTypes.STRING(36),
     allowNull: true,
+    references: {
+      model: Utilisateurs,
+      key: 'Id_Utilisateur',
+    },
   },
   Mail: {
     type: DataTypes.STRING(50),
@@ -53,7 +61,7 @@ const Contacts = sequelize.define('Contacts', {
     beforeValidate: (contact) => {
       contact.set(transformEmptyStringToNull(contact.dataValues));
 
-      if (!contact.Id_Contact) {
+      if (!contact.Id_Utilisateur_Contact) {
         if (!contact.Mail && !contact.Telephone) {
           throw new Error(CodeErreur.CONTACT_IDENTIFIANT);
         }

@@ -89,8 +89,6 @@ router.delete('/suppression/:id', async (req, res) => {
   }
 });
 
-
-
 // Détail d'un évènement
 router.put('/:id_evenement', async (req, res) => {
   const Id_Evenement = req.params.id_evenement;
