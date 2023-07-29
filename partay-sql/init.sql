@@ -24,8 +24,9 @@ CREATE TABLE Utilisateurs (
 
 -- CREATE Contacts
 CREATE TABLE Contacts (
-   Id_Utilisateur VARCHAR(36) NOT NULL,
    Id_Contact VARCHAR(36),
+   Id_Utilisateur VARCHAR(36) NOT NULL,
+   Id_Utilisateur_Contact VARCHAR(36),
    Mail VARCHAR(50),
    Telephone VARCHAR(50),
    Prenom VARCHAR(50),
@@ -34,10 +35,12 @@ CREATE TABLE Contacts (
    DateNaissance DATE,
    DateAjout DATETIME NOT NULL,
 
-   PRIMARY KEY(Id_Utilisateur),
+   PRIMARY KEY(Id_Contact),
    FOREIGN KEY(Id_Utilisateur) REFERENCES Utilisateurs(Id_Utilisateur),
+   FOREIGN KEY(Id_Utilisateur_Contact) REFERENCES Utilisateurs(Id_Utilisateur),
+   
    CONSTRAINT contrainte_interne_exeterne CHECK (
-       (Id_Contact IS NOT NULL) OR
+       (Id_Utilisateur_Contact IS NOT NULL) OR
        ((Mail IS NOT NULL OR Telephone IS NOT NULL) AND
        (Prenom IS NOT NULL OR Pseudo IS NOT NULL))
    )
@@ -46,7 +49,9 @@ CREATE TABLE Contacts (
 -- CREATE Evenements
 CREATE TABLE Evenements (
    Id_Evenement VARCHAR(36),
+   Nom VARCHAR(50) NOT NULL,
    Organisateur VARCHAR(36) NOT NULL,
+   Presentation TEXT,
    Lieu VARCHAR(50),
    DateDebut DATETIME NOT NULL,
    DateFin DATETIME,
