@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const CodeErreur = require('../erreurs/CodeErreur');
+
 const Invitations = require('../models/Invitations');
 
 // Création d'une invitation

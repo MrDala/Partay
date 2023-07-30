@@ -5,7 +5,6 @@ const CodeErreur = require('../erreurs/CodeErreur');
 const { Utilisateurs } = require('./Utilisateurs');
 const { Evenements } = require('./Evenements');
 
-
 const TYPE_NUMERIQUE = 'numerique';
 const TYPE_BOOLEEN = 'booleen';
 const TYPE_TEXTE = 'string';

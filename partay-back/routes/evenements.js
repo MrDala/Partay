@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { Evenements, Invitations } = require('../models');
+const Evenements = require('../models/Evenements');
+const Invitations = require('../models/Invitations');
 
 const CodeErreur = require('../erreurs/CodeErreur');
 
