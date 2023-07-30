@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT;
-const sequelize = require('./sequelize'); // Importez la constante sequelize depuis le fichier sequelize.js
+const { sequelize } = require('./config/config');
 
 const routerTest = require('./routes/test');
 const routerUtilisateurs = require('./routes/utilisateurs');

@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../sequelize');
+const { sequelize } = require('../config/config');
 
 const Utilisateurs = require('./Utilisateurs');
 const Evenements = require('./Evenements');
@@ -20,7 +20,7 @@ const Invitations = sequelize.define('Invitations', {
     allowNull: false,
     references: {
       model: Evenements,
-      key: 'Id_Evenements',
+      key: 'Id_Evenement',
     },
   },
   Reponse: {
@@ -28,6 +28,7 @@ const Invitations = sequelize.define('Invitations', {
   },
   DateInvitation: {
     type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
     allowNull: false,
   },
   DateModification: {
