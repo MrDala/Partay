@@ -5,7 +5,7 @@ import { UserContext } from '../../context/UserContext';
 import { api } from '../../api/Api';
 import CodeErreurServeur from '../../erreurs/CodeErreurServeur';
 import CodeErreur from '../../erreurs/CodeErreur';
-import Champ from '../atoms/Champ';
+import Champ from '../molecules/Champ';
 
 function Inscription() {
   /* --------------------- DECLARATION DES VARIABLES  ---------------------*/
@@ -52,7 +52,7 @@ function Inscription() {
 
     if (isFormValid) {
       try {
-        const response = await api.inscription(inscriptionData);
+        const response = await api.ajouterUtilisateur(inscriptionData);
         setUtilisateur(response);
       } catch (error) {
         setErreurMessage(CodeErreurServeur[error]);
