@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/config');
 
-const Utilisateurs = require('./Utilisateurs');
-const Evenements = require('./Evenements');
+const { Utilisateurs } = require('./Utilisateurs');
+const { Evenements } = require('./Evenements');
 
 const Invitations = sequelize.define('Invitations', {
   Id_Utilisateur: {

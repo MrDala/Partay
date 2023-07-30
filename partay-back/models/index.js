@@ -6,8 +6,13 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const config = require(__dirname + '/../config/config.js')[env];
+
+const UtilisateursModel = require('./Utilisateurs');
+const ContactsModel = require('./Contacts');
+const EvenementsModel = require('./Evenements');
+const InvitationsModel = require('./Invitations');
+const ChampsPersonnalisablesModel = require('./ChampsPersonnalisables');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -15,6 +20,14 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+
+const db = {
+  Utilisateurs: UtilisateursModel,
+  Contacts: ContactsModel,        
+  Evenements: EvenementsModel,    
+  Invitations: InvitationsModel,  
+  ChampsPersonnalisables: ChampsPersonnalisablesModel,
+};
 
 fs
   .readdirSync(__dirname)

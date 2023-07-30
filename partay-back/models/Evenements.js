@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/config');
 
-const Utilisateurs = require('./Utilisateurs');
+const { Utilisateurs } = require('./Utilisateurs');
+
 const { transformEmptyStringToNull } = require('../tools');
 
 const Evenements = sequelize.define('Evenement', {

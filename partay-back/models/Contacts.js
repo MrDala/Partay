@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/config');
 
-const Utilisateurs = require('./Utilisateurs'); 
+const { Utilisateurs } = require('./Utilisateurs');
 
 const CodeErreur = require('../erreurs/CodeErreur');
 const { transformEmptyStringToNull } = require('../tools');

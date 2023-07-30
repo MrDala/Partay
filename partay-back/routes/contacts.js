@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize');
 
-const Utilisateurs = require('../models/Utilisateurs');
-const Contacts = require('../models/Contacts');
+const { Utilisateurs, Contacts } = require('../models');
 
 const CodeErreur = require('../erreurs/CodeErreur');
 
