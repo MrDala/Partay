@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const Evenements = require('../models/Evenements');
+const Invitations = require('../models/Invitations');
 
 const CodeErreur = require('../erreurs/CodeErreur');
-const Invitations = require('../models/Invitations');
 
 // Création d'un évènement
 router.post('/ajout', async (req, res) => {
@@ -17,7 +17,8 @@ router.post('/ajout', async (req, res) => {
       Presentation: Presentation,
       Lieu: Lieu,
       DateDebut: DateDebut,
-      DateFin: DateFin
+      DateFin: DateFin,
+      DateModification : new Date()
     });
 
     const message = 'Création de l\'évènement réussi : ' + newEvenement.Id_Evenement;
@@ -49,7 +50,8 @@ router.put('/modification/:id', async (req, res) => {
       Presentation: Presentation,
       Lieu: Lieu,
       DateDebut: DateDebut,
-      DateFin: DateFin
+      DateFin: DateFin,
+      DateModification : new Date(),
     }, {
       where: { Id_Evenement: eventId }
     });

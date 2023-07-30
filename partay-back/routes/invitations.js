@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const CodeErreur = require('../erreurs/CodeErreur');
+
 const Invitations = require('../models/Invitations');
 
 // Création d'une invitation
@@ -13,6 +14,7 @@ router.post('/ajout', async (req, res) => {
       Id_Utilisateur: Id_Utilisateur,
       Id_Evenement: Id_Evenement,
       Reponse: Reponse,
+      DateModification : new Date()
     });
 
     const message = 'Création de l\'invitation réussie : [' + invitation.Id_Evenement + " / " + invitation.Id_Utilisateur + "]";
@@ -40,7 +42,10 @@ router.put('/reponse/:id', async (req, res) => {
 
     // Effectuer la mise à jour du champ Reponse de l'invitation
     await Invitations.update(
-      { Reponse: Reponse },
+      { 
+        Reponse: Reponse,
+        DateModification : new Date()
+      },
       { where: { Id_Invitation: invitationId } }
     );
 

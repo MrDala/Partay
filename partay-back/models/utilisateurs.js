@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../sequelize');
+const { sequelize } = require('../config/config');
 
 const CodeErreur = require('../erreurs/CodeErreur');
 const { contrainteMotDePasse, transformEmptyStringToNull } = require('../tools');

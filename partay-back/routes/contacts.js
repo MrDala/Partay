@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize');
 
+const CodeErreur = require('../erreurs/CodeErreur');
+
 const Utilisateurs = require('../models/Utilisateurs');
 const Contacts = require('../models/Contacts');
-
-const CodeErreur = require('../erreurs/CodeErreur');
 
 // Ajout ou modification d'un contact pour un utilisateur donné
 router.post('/ajout', async (req, res) => {
